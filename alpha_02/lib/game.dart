@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:alpha_02/json_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'model.dart';
+import 'package:http/http.dart' as http;
 
 class MyGame extends StatefulWidget {
   const MyGame({Key key}) : super(key: key);
@@ -9,22 +13,29 @@ class MyGame extends StatefulWidget {
 }
 
 int cardNum = 0;
+int msgNum = 0;
 
-String currentCharacter = cardSelector[cardNum].getCharacterName;
-String currentMessage = cardSelector[cardNum].getDialogueMessage;
+String currentCharacter = data['cards'][cardNum]['characterName'];
+String currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
 
-var currentCharacterImage = cardSelector[cardNum].getCharacterImage;
-var currentScenary = cardSelector[cardNum].getBackgroundImage;
+var currentCharacterImage = data['cards'][cardNum]['characterImage'];
+var currentScenary = data['cards'][cardNum]['backgroundImage'];
+var data = jsonDecode(jsonData);
 
 class MyGameState extends State<MyGame> {
 //функция переопределяюзаяя основные переменные и дающая понять виджету, что его состояние изменилось
   void nextCardNum() {
     setState(() {
-      cardNum = cardSelector[cardNum].getNextCardNumber;
-      currentCharacter = cardSelector[cardNum].getCharacterName;
-      currentMessage = cardSelector[cardNum].getDialogueMessage;
-      currentCharacterImage = cardSelector[cardNum].getCharacterImage;
-      currentScenary = cardSelector[cardNum].getBackgroundImage;
+      currentCharacter = data['cards'][cardNum]['characterName'];
+      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+      currentCharacterImage = data['cards'][cardNum]['characterImage'];
+      currentScenary = data['cards'][cardNum]['backgroundImage'];
+      if (msgNum == data['cards'][cardNum]['dialogueMessage'].length - 1) {
+        msgNum = 0;
+        cardNum++;
+      } else {
+        msgNum++;
+      }
     });
   }
 
@@ -36,7 +47,7 @@ class MyGameState extends State<MyGame> {
           body: Center(
         child: Stack(
           children: [
-            currentScenary,
+            backgroundScenary(),
             currentCharacterWidget(),
             dialogueWindow(),
             textMessage(),
@@ -46,6 +57,10 @@ class MyGameState extends State<MyGame> {
         ),
       )),
     );
+  }
+
+  Widget backgroundScenary() {
+    return Center(child: Image.asset(currentScenary));
   }
 
 // виджет выводящий диалоговое окно
@@ -95,7 +110,7 @@ class MyGameState extends State<MyGame> {
     return Container(
       alignment: Alignment.bottomRight,
       margin: const EdgeInsets.only(bottom: 20),
-      child: currentCharacterImage,
+      child: Image.asset(currentCharacterImage),
     );
   }
 
