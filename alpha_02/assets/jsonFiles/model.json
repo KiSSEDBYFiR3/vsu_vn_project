@@ -7,13 +7,18 @@
         ],
         "characterName": "Рейчел",
         "characterImage": "assets/woman.png",
-        "backgroundImage": "assets/scenary1.png"
+        "backgroundImage": "assets/scenary1.png",
+        "id": 1,
+        "choises": [
+            { "Дальше": 2}
+        ]
     },
     {
         "dialogueMessage": ["Тогда почему я все еще ощущаю эмоции? По твоим словам, у меня осталось менее пяти процентов души, а это, переводя на нормальный язык, практически равно полному ее отсутствию. Но тем не менее я все еще способен чувствовать и воспринимать мир таким, какой он есть."],
         "characterName": "Крис",
         "characterImage": "assets/os_disgust.png",
-        "backgroundImage": "assets/scenary1.png"
+        "backgroundImage": "assets/scenary1.png",
+        "id": 2
     },
     {
         "dialogueMessage":[
@@ -22,7 +27,8 @@
     ],
         "characterName":"Рейчел",
         "characterImage":"assets/woman.png",
-        "backgroundImage":"assets/scenary1.png"
+        "backgroundImage":"assets/scenary1.png",
+        "id": 3
 
     },
     {
@@ -32,7 +38,8 @@
         ],
         "characterName":"Анабель",
         "characterImage":"assets/sprite.png",
-        "backgroundImage":"assets/scenary2.png"
+        "backgroundImage":"assets/scenary2.png",
+        "id": 4
     }
 ]
 }

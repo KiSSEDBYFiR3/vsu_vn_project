@@ -15,6 +15,7 @@
 *.iws
 .idea/
 
+/assets
 
 # Flutter/Dart/Pub related
 **/doc/api/

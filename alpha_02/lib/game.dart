@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:alpha_02/json_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'model.dart';
-import 'package:http/http.dart' as http;
 
 class MyGame extends StatefulWidget {
   const MyGame({Key key}) : super(key: key);
@@ -14,28 +11,44 @@ class MyGame extends StatefulWidget {
 
 int cardNum = 0;
 int msgNum = 0;
-
-String currentCharacter = data['cards'][cardNum]['characterName'];
-String currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-
-var currentCharacterImage = data['cards'][cardNum]['characterImage'];
-var currentScenary = data['cards'][cardNum]['backgroundImage'];
-var data = jsonDecode(jsonData);
+String currentCharacter = "";
+String currentMessage = "";
+var currentCharacterImage = "";
+var currentScenary = "";
 
 class MyGameState extends State<MyGame> {
 //функция переопределяюзаяя основные переменные и дающая понять виджету, что его состояние изменилось
-  void nextCardNum() {
+
+  Map data = {};
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
+  Future<void> fetchData() async {
+    final response = await rootBundle.loadString('assets/jsonFiles/model.json');
     setState(() {
+      data = jsonDecode(response);
       currentCharacter = data['cards'][cardNum]['characterName'];
       currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
       currentCharacterImage = data['cards'][cardNum]['characterImage'];
       currentScenary = data['cards'][cardNum]['backgroundImage'];
+    });
+  }
+
+  void nextCardNum() {
+    setState(() {
       if (msgNum == data['cards'][cardNum]['dialogueMessage'].length - 1) {
         msgNum = 0;
         cardNum++;
       } else {
         msgNum++;
       }
+      currentCharacter = data['cards'][cardNum]['characterName'];
+      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+      currentCharacterImage = data['cards'][cardNum]['characterImage'];
+      currentScenary = data['cards'][cardNum]['backgroundImage'];
     });
   }
 
