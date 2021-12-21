@@ -1,16 +1,15 @@
 {
      "cards" : [{
         "dialogueMessage" : [
-            "Душа - изначально источник и хранилище всех исходных человеческих эмоции. Можно было бы сказать, что нет души - нет и эмоции, но это не совсем так...",
-            " Душа - изначально источник и хранилище всех исходных человеческих эмоции. Можно было бы сказать, что нет души - нет и эмоции, но это не совсем так...", 
+            "Душа - изначально источник и хранилище всех исходных человеческих эмоции. Можно было бы сказать, что нет души - нет и эмоции, но это не совсем так...", 
             "Чем старше человек, тем больше 'внешние' эмоции, поступающиее из души укрепляются в его внутреннем сознании. Но как бы то ни было это лишь верхушка айсберга. Убери душу и человек по большей части станет пустышкой - отголоском самого себя."
         ],
         "characterName": "Рейчел",
         "characterImage": "assets/woman.png",
         "backgroundImage": "assets/scenary1.png",
-        "id": 1,
+        "id": 0,
         "choises": [
-            { "Дальше": 2}
+
         ]
     },
     {
@@ -18,7 +17,10 @@
         "characterName": "Крис",
         "characterImage": "assets/os_disgust.png",
         "backgroundImage": "assets/scenary1.png",
-        "id": 2
+        "id": 1,
+        "choises": [
+
+        ]        
     },
     {
         "dialogueMessage":[
@@ -28,7 +30,20 @@
         "characterName":"Рейчел",
         "characterImage":"assets/woman.png",
         "backgroundImage":"assets/scenary1.png",
-        "id": 3
+        "id": 2,
+        "choises": [
+            {   "nextId": 0,
+                "optionText": "Выбор 1"
+            },
+            {
+                "nextId": 1,
+                "optionText" :"Выбор 2"
+            },
+            {
+                "nextId": 3,
+                "optionText":"Выбор 3"
+            }
+        ]
 
     },
     {
@@ -39,7 +54,20 @@
         "characterName":"Анабель",
         "characterImage":"assets/sprite.png",
         "backgroundImage":"assets/scenary2.png",
-        "id": 4
+        "id": 3,
+        "choises":[
+            {   "nextId": 0,
+                "optionText": "Выбор 1"
+            },
+            {
+                "nextId": 2,
+                "optionText" :"Выбор 2"
+            },
+            {
+                "nextId": 3,
+                "optionText":"Выбор 3"
+            }
+        ]
     }
 ]
 }

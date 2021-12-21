@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,17 +16,18 @@ String currentCharacter = "";
 String currentMessage = "";
 var currentCharacterImage = "";
 var currentScenary = "";
+List choisesList = [];
 
 class MyGameState extends State<MyGame> {
-//функция переопределяюзаяя основные переменные и дающая понять виджету, что его состояние изменилось
-
   Map data = {};
+//внутрененее состояние класса незменяемое при каждом измении основного состоянии программы
   @override
   void initState() {
     fetchData();
     super.initState();
   }
 
+//конструктор, получающий данные из json файла
   Future<void> fetchData() async {
     final response = await rootBundle.loadString('assets/jsonFiles/model.json');
     setState(() {
@@ -34,9 +36,115 @@ class MyGameState extends State<MyGame> {
       currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
       currentCharacterImage = data['cards'][cardNum]['characterImage'];
       currentScenary = data['cards'][cardNum]['backgroundImage'];
+      choisesList = data['cards'][cardNum]['choises'].toList();
     });
   }
 
+  void option1() {
+    setState(() {
+      cardNum = data['cards'][cardNum]['choises'][0]['nextId'];
+      currentCharacter = data['cards'][cardNum]['characterName'];
+      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+      currentCharacterImage = data['cards'][cardNum]['characterImage'];
+      currentScenary = data['cards'][cardNum]['backgroundImage'];
+    });
+  }
+
+  void option2() {
+    setState(() {
+      cardNum = data['cards'][cardNum]['choises'][1]['nextId'];
+      currentCharacter = data['cards'][cardNum]['characterName'];
+      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+      currentCharacterImage = data['cards'][cardNum]['characterImage'];
+      currentScenary = data['cards'][cardNum]['backgroundImage'];
+    });
+  }
+
+  void option3() {
+    setState(() {
+      cardNum = data['cards'][cardNum]['choises'][2]['nextId'];
+      currentCharacter = data['cards'][cardNum]['characterName'];
+      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+      currentCharacterImage = data['cards'][cardNum]['characterImage'];
+      currentScenary = data['cards'][cardNum]['backgroundImage'];
+    });
+  }
+
+// функция создающая диалоговые окна
+  _openDialogue(BuildContext context) async {
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            // ignore: prefer_const_constructors
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: const Color.fromRGBO(0, 0, 0, 0.0),
+            children: [
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, "Option 1");
+                },
+                child: Text(data["cards"][cardNum]["choises"][0]['optionText'],
+                    style: const TextStyle(
+                        color: Color.fromRGBO(247, 208, 84, 0.6),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Courier New')),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, "Option 2");
+                },
+                child: Text(data["cards"][cardNum]["choises"][1]['optionText'],
+                    style: const TextStyle(
+                        color: Color.fromRGBO(247, 208, 84, 0.6),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Courier New')),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, "Option 3");
+                },
+                child: Text(data["cards"][cardNum]["choises"][2]['optionText'],
+                    style: const TextStyle(
+                        color: Color.fromRGBO(247, 208, 84, 0.6),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Courier New')),
+              )
+            ],
+          );
+        })) {
+      case "Option 1":
+        setState(() {
+          cardNum = data['cards'][cardNum]['choises'][0]['nextId'];
+          currentCharacter = data['cards'][cardNum]['characterName'];
+          currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+          currentCharacterImage = data['cards'][cardNum]['characterImage'];
+          currentScenary = data['cards'][cardNum]['backgroundImage'];
+        });
+        break;
+      case "Option 2":
+        setState(() {
+          cardNum = data['cards'][cardNum]['choises'][1]['nextId'];
+          currentCharacter = data['cards'][cardNum]['characterName'];
+          currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+          currentCharacterImage = data['cards'][cardNum]['characterImage'];
+          currentScenary = data['cards'][cardNum]['backgroundImage'];
+        });
+        break;
+      case "Option 3":
+        setState(() {
+          cardNum = data['cards'][cardNum]['choises'][2]['nextId'];
+          currentCharacter = data['cards'][cardNum]['characterName'];
+          currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
+          currentCharacterImage = data['cards'][cardNum]['characterImage'];
+          currentScenary = data['cards'][cardNum]['backgroundImage'];
+        });
+        break;
+    }
+  }
+
+//функция изменяющая состояние виджета и переопределяющая переменные
   void nextCardNum() {
     setState(() {
       if (msgNum == data['cards'][cardNum]['dialogueMessage'].length - 1) {
@@ -65,7 +173,7 @@ class MyGameState extends State<MyGame> {
             dialogueWindow(),
             textMessage(),
             characterName(),
-            nextButton()
+            nextButton(),
           ],
         ),
       )),
@@ -86,7 +194,6 @@ class MyGameState extends State<MyGame> {
   }
 
 // виджет выводящий текущий текст диалога
-// margin: const EdgeInsets.only(left: 50, right: 30, bottom: 100, top: 750),
   Widget textMessage() {
     return Container(
       width: 1200,
@@ -96,13 +203,12 @@ class MyGameState extends State<MyGame> {
         currentMessage,
         textAlign: TextAlign.left,
         textScaleFactor: 1.5,
-        style: const TextStyle(color: Colors.grey, fontFamily: 'IMFellEnglish'),
+        style: const TextStyle(color: Colors.grey, fontFamily: 'Courier New'),
       ),
     );
   }
 
 // виджет выводящий в диалоговое окно имя персонажа
-// margin: const EdgeInsets.only(left: 40, right: 30, bottom: 250),
   Widget characterName() {
     return Container(
       height: 720,
@@ -113,7 +219,7 @@ class MyGameState extends State<MyGame> {
         textAlign: TextAlign.left,
         textScaleFactor: 2.2,
         style:
-            const TextStyle(color: Colors.white70, fontFamily: 'IMFellEnglish'),
+            const TextStyle(color: Colors.white70, fontFamily: 'Courier New'),
       ),
     );
   }
@@ -127,16 +233,18 @@ class MyGameState extends State<MyGame> {
     );
   }
 
-// виджет-конпка 'далее', которая задействует обновляет переменные и состояние основного виджета
-// const EdgeInsets.only(right: 400, bottom: 20, top: 910, left: 1330) для монитора
-// const EdgeInsets.only(right: 200, bottom: 20, top: 680, left: 1200) для ноутбука
+// виджет-конпка 'далее', которая задействует функцию nextCardNum, которая обновляет переменные и состояние основного виджета
   Widget nextButton() {
     return Container(
         color: Colors.grey,
         margin:
             const EdgeInsets.only(right: 400, bottom: 20, top: 910, left: 1330),
         child: OutlinedButton(
-          onPressed: nextCardNum,
+          onPressed: () {
+            data['cards'][cardNum]['choises'].isEmpty
+                ? nextCardNum()
+                : _openDialogue(context);
+          },
           child: const Text("Далее", style: TextStyle(fontSize: 35)),
         ));
   }

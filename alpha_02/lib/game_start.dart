@@ -16,12 +16,26 @@ class GameStart extends StatefulWidget {
   State<StatefulWidget> createState() => GameStartState();
 }
 
+Image logo;
+Image background;
+
 class GameStartState extends State<GameStart> {
-  void stateSetter() {
-    setState(() {});
+  @override
+  void initState() {
+    super.initState();
+    logo = Image.asset('assets/chaos_star.png');
+    background = Image.asset('assets/wastelands.jpg');
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(logo.image, context);
+    precacheImage(background.image, context);
+  }
+
+  @override
+  //виджет со стэком, в который передаются виджеты, котороые отрисовывают начальный экран
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
@@ -41,12 +55,12 @@ class GameStartState extends State<GameStart> {
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.only(bottom: 0),
-      child: Image.asset('assets/chaos_star.png'),
+      child: logo,
     );
   }
 
   Widget backgroundStartImage() {
-    return Center(child: Image.asset('assets/wastelands.jpg'));
+    return Center(child: background);
   }
 
   Widget gameButtons() {
