@@ -40,36 +40,6 @@ class MyGameState extends State<MyGame> {
     });
   }
 
-  void option1() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][0]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
-  void option2() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][1]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
-  void option3() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][2]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
 // функция создающая диалоговые окна
   _openDialogue(BuildContext context) async {
     switch (await showDialog<String>(
