@@ -8,14 +8,15 @@
 .buildlog/
 .history
 .svn/
-
+.vs
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
 
-/assets
+
+windows/
 
 # Flutter/Dart/Pub related
 **/doc/api/

@@ -20,7 +20,7 @@ List choisesList = [];
 
 class MyGameState extends State<MyGame> {
   Map data = {};
-//внутрененее состояние класса незменяемое при каждом измении основного состоянии программы
+//внутрененее состояние класса незменяемое при каждом изменении основного состоянии программы
   @override
   void initState() {
     fetchData();
@@ -40,76 +40,56 @@ class MyGameState extends State<MyGame> {
     });
   }
 
-  void option1() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][0]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
-  void option2() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][1]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
-  void option3() {
-    setState(() {
-      cardNum = data['cards'][cardNum]['choises'][2]['nextId'];
-      currentCharacter = data['cards'][cardNum]['characterName'];
-      currentMessage = data['cards'][cardNum]['dialogueMessage'][msgNum];
-      currentCharacterImage = data['cards'][cardNum]['characterImage'];
-      currentScenary = data['cards'][cardNum]['backgroundImage'];
-    });
-  }
-
 // функция создающая диалоговые окна
   _openDialogue(BuildContext context) async {
     switch (await showDialog<String>(
         context: context,
+        barrierDismissible: true,
         builder: (BuildContext context) {
           return SimpleDialog(
-            // ignore: prefer_const_constructors
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            backgroundColor: const Color.fromRGBO(0, 0, 0, 0.0),
+            backgroundColor: const Color.fromRGBO(244, 244, 244, 0.03),
             children: [
               SimpleDialogOption(
+                padding: const EdgeInsets.all(12),
                 onPressed: () {
                   Navigator.pop(context, "Option 1");
                 },
-                child: Text(data["cards"][cardNum]["choises"][0]['optionText'],
-                    style: const TextStyle(
-                        color: Color.fromRGBO(247, 208, 84, 0.6),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Courier New')),
+                child: Center(
+                    child: Text(
+                        data["cards"][cardNum]["choises"][0]['optionText'],
+                        style: const TextStyle(
+                            color: Color.fromRGBO(247, 208, 84, 0.85),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Optimus Princeps',
+                            fontSize: 23))),
               ),
               SimpleDialogOption(
+                padding: const EdgeInsets.all(12),
                 onPressed: () {
                   Navigator.pop(context, "Option 2");
                 },
-                child: Text(data["cards"][cardNum]["choises"][1]['optionText'],
-                    style: const TextStyle(
-                        color: Color.fromRGBO(247, 208, 84, 0.6),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Courier New')),
+                child: Center(
+                    child: Text(
+                        data["cards"][cardNum]["choises"][1]['optionText'],
+                        style: const TextStyle(
+                            color: Color.fromRGBO(247, 208, 84, 0.85),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Optimus Princeps',
+                            fontSize: 23))),
               ),
               SimpleDialogOption(
+                padding: const EdgeInsets.all(12),
                 onPressed: () {
                   Navigator.pop(context, "Option 3");
                 },
-                child: Text(data["cards"][cardNum]["choises"][2]['optionText'],
-                    style: const TextStyle(
-                        color: Color.fromRGBO(247, 208, 84, 0.6),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Courier New')),
+                child: Center(
+                    child: Text(
+                        data["cards"][cardNum]["choises"][2]['optionText'],
+                        style: const TextStyle(
+                            color: Color.fromRGBO(247, 208, 84, 0.85),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Optimus Princeps',
+                            fontSize: 23))),
               )
             ],
           );
@@ -169,7 +149,9 @@ class MyGameState extends State<MyGame> {
         child: Stack(
           children: [
             backgroundScenary(),
-            currentCharacterWidget(),
+            currentCharacter == " "
+                ? noCharacterShadow()
+                : currentCharacterWidget(),
             dialogueWindow(),
             textMessage(),
             characterName(),
@@ -181,7 +163,18 @@ class MyGameState extends State<MyGame> {
   }
 
   Widget backgroundScenary() {
-    return Center(child: Image.asset(currentScenary));
+    return Center(
+      child: Image.asset(currentScenary),
+      widthFactor: 1.2,
+    );
+  }
+
+// прозрачная тень, отображаемая в моменты повествования без участвия разговоров персонажей
+  Widget noCharacterShadow() {
+    return Container(
+        alignment: Alignment.bottomRight,
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Image.asset("assets/shadow.png"));
   }
 
 // виджет выводящий диалоговое окно
@@ -197,13 +190,18 @@ class MyGameState extends State<MyGame> {
   Widget textMessage() {
     return Container(
       width: 1200,
-      margin: const EdgeInsets.only(left: 50, right: 30, bottom: 100, top: 750),
+      margin: EdgeInsets.only(
+          left: 50,
+          right: 30,
+          bottom: 100,
+          top: MediaQuery.of(context).size.height / 1.3),
       alignment: Alignment.topLeft,
       child: Text(
         currentMessage,
         textAlign: TextAlign.left,
         textScaleFactor: 1.5,
-        style: const TextStyle(color: Colors.grey, fontFamily: 'Courier New'),
+        style: const TextStyle(
+            color: Colors.white, fontFamily: 'Optimus Princeps', fontSize: 16),
       ),
     );
   }
@@ -212,14 +210,14 @@ class MyGameState extends State<MyGame> {
   Widget characterName() {
     return Container(
       height: 720,
-      margin: const EdgeInsets.only(left: 40, right: 30, bottom: 250),
+      margin: const EdgeInsets.only(left: 45, bottom: 250),
       alignment: Alignment.bottomLeft,
       child: Text(
         currentCharacter,
         textAlign: TextAlign.left,
         textScaleFactor: 2.2,
-        style:
-            const TextStyle(color: Colors.white70, fontFamily: 'Courier New'),
+        style: const TextStyle(
+            color: Colors.white, fontFamily: 'Optimus Princeps', fontSize: 15),
       ),
     );
   }
@@ -236,16 +234,19 @@ class MyGameState extends State<MyGame> {
 // виджет-конпка 'далее', которая задействует функцию nextCardNum, которая обновляет переменные и состояние основного виджета
   Widget nextButton() {
     return Container(
-        color: Colors.grey,
-        margin:
-            const EdgeInsets.only(right: 400, bottom: 20, top: 910, left: 1330),
-        child: OutlinedButton(
+        alignment: Alignment.bottomLeft,
+        margin: const EdgeInsets.only(left: 360, bottom: 270),
+        child: IconButton(
+          icon: Icon(
+            Icons.skip_next,
+            color: Colors.white,
+            size: MediaQuery.of(context).size.width / 28,
+          ),
           onPressed: () {
             data['cards'][cardNum]['choises'].isEmpty
                 ? nextCardNum()
                 : _openDialogue(context);
           },
-          child: const Text("Далее", style: TextStyle(fontSize: 35)),
         ));
   }
 }

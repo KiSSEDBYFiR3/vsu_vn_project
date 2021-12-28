@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'game.dart';
-import 'dart:convert';
 
 void main() {
   runApp(const GameStart());
@@ -25,13 +23,6 @@ class GameStartState extends State<GameStart> {
     super.initState();
     logo = Image.asset('assets/chaos_star.png');
     background = Image.asset('assets/wastelands.jpg');
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(logo.image, context);
-    precacheImage(background.image, context);
   }
 
   @override
@@ -79,10 +70,14 @@ class GameStartState extends State<GameStart> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20))),
                       icon: Icon(Icons.play_circle_outline_outlined,
-                          color: Colors.red.shade900, size: 44),
-                      label: const Text(
+                          color: Colors.red.shade900,
+                          size: MediaQuery.of(context).size.width / 39),
+                      label: Text(
                         'Новая игра',
-                        style: TextStyle(color: Colors.white70, fontSize: 48),
+                        style: TextStyle(
+                            fontFamily: 'Optimus Princeps',
+                            color: Colors.white70,
+                            fontSize: MediaQuery.of(context).size.width / 38),
                       ),
                       onPressed: () {
                         Route route = MaterialPageRoute(
@@ -101,10 +96,14 @@ class GameStartState extends State<GameStart> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         icon: Icon(Icons.play_circle_fill_outlined,
-                            color: Colors.red.shade900, size: 44),
-                        label: const Text(
+                            color: Colors.red.shade900,
+                            size: MediaQuery.of(context).size.width / 39),
+                        label: Text(
                           'Загрузка',
-                          style: TextStyle(color: Colors.white70, fontSize: 48),
+                          style: TextStyle(
+                              fontFamily: 'Optimus Princeps',
+                              color: Colors.white70,
+                              fontSize: MediaQuery.of(context).size.width / 38),
                         ),
                         onPressed: () {},
                       )),
@@ -118,10 +117,14 @@ class GameStartState extends State<GameStart> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         icon: Icon(Icons.close,
-                            color: Colors.red.shade900, size: 44),
-                        label: const Text(
+                            color: Colors.red.shade900,
+                            size: MediaQuery.of(context).size.width / 39),
+                        label: Text(
                           'Выйти из игры',
-                          style: TextStyle(color: Colors.white70, fontSize: 48),
+                          style: TextStyle(
+                              fontFamily: 'Optimus Princeps',
+                              color: Colors.white70,
+                              fontSize: MediaQuery.of(context).size.width / 38),
                         ),
                         onPressed: () => SystemChannels.platform
                             .invokeMethod('SystemNavigator.pop')),
@@ -130,17 +133,26 @@ class GameStartState extends State<GameStart> {
   }
 
   Widget gameName() {
-    return Container(
-      alignment: Alignment.topCenter,
-      margin: const EdgeInsets.only(top: 200),
-      child: Text(
-        'Shadows of Chaos',
-        style: TextStyle(
-            fontSize: 130,
-            fontFamily: 'Celexa',
-            color: Colors.red.shade900,
-            fontWeight: FontWeight.w500),
-      ),
-    );
+    return Builder(
+        builder: (context) => Container(
+              alignment: Alignment.topCenter,
+              margin:
+                  EdgeInsets.only(top: MediaQuery.of(context).size.height / 4),
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 300.0,
+                    maxWidth: 950.0,
+                    minHeight: 30.0,
+                    maxHeight: 200.0,
+                  ),
+                  child: AutoSizeText(
+                    'Тени Хаоса',
+                    style: TextStyle(
+                        fontSize: 130,
+                        fontFamily: 'Optimus Princeps',
+                        color: Colors.red.shade900,
+                        fontWeight: FontWeight.w500),
+                  )),
+            ));
   }
 }

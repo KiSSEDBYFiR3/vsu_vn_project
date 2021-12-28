@@ -14,8 +14,8 @@
     },
     {
         "dialogueMessage": ["Тогда почему я все еще ощущаю эмоции? По твоим словам, у меня осталось менее пяти процентов души, а это, переводя на нормальный язык, практически равно полному ее отсутствию. Но тем не менее я все еще способен чувствовать и воспринимать мир таким, какой он есть."],
-        "characterName": "Крис",
-        "characterImage": "assets/os_disgust.png",
+        "characterName": " ",
+        "characterImage": " ",
         "backgroundImage": "assets/scenary1.png",
         "id": 1,
         "choises": [
@@ -33,15 +33,15 @@
         "id": 2,
         "choises": [
             {   "nextId": 0,
-                "optionText": "Выбор 1"
+                "optionText": "Переспросить у Рейчел"
             },
             {
                 "nextId": 1,
-                "optionText" :"Выбор 2"
+                "optionText" :"Спросить у себя (?)"
             },
             {
                 "nextId": 3,
-                "optionText":"Выбор 3"
+                "optionText":"Спросить у Анабель"
             }
         ]
 
@@ -57,15 +57,15 @@
         "id": 3,
         "choises":[
             {   "nextId": 0,
-                "optionText": "Выбор 1"
+                "optionText": "Вернуться назад"
             },
             {
                 "nextId": 2,
-                "optionText" :"Выбор 2"
+                "optionText" :"Спросить у Рейчел"
             },
             {
-                "nextId": 3,
-                "optionText":"Выбор 3"
+                "nextId": 1,
+                "optionText":"Спросить у себя (?)"
             }
         ]
     }
