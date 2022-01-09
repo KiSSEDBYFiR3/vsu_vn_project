@@ -1,10 +1,11 @@
+import 'package:alpha_02/save_game.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'game.dart';
 
 void main() {
-  runApp(const GameStart());
+  runApp(const MaterialApp(home: GameStart()));
 }
 
 class GameStart extends StatefulWidget {
@@ -29,17 +30,18 @@ class GameStartState extends State<GameStart> {
   //виджет со стэком, в который передаются виджеты, котороые отрисовывают начальный экран
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-      body: Center(
-          child: Stack(
-        children: [
-          backgroundStartImage(),
-          gameLogo(),
-          gameName(),
-          gameButtons(),
-        ],
-      )),
-    ));
+          body: Center(
+              child: Stack(
+            children: [
+              backgroundStartImage(),
+              gameLogo(),
+              gameName(),
+              gameButtons(),
+            ],
+          )),
+        ));
   }
 
   Widget gameLogo() {
@@ -51,7 +53,9 @@ class GameStartState extends State<GameStart> {
   }
 
   Widget backgroundStartImage() {
-    return Center(child: background);
+    return Center(
+      child: background,
+    );
   }
 
   Widget gameButtons() {
@@ -105,7 +109,11 @@ class GameStartState extends State<GameStart> {
                               color: Colors.white70,
                               fontSize: MediaQuery.of(context).size.width / 38),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Route load = MaterialPageRoute(
+                              builder: (context) => const LoadMyGame());
+                          Navigator.of(context).push(load);
+                        },
                       )),
                   Container(
                     margin: const EdgeInsets.all(12),

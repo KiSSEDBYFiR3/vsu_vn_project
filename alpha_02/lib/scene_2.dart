@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:alpha_02/scene_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
-class MyGame extends StatefulWidget {
-  const MyGame({Key key}) : super(key: key);
+class NextScene extends StatefulWidget {
+  const NextScene({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => MyGameState();
+  State<StatefulWidget> createState() => NextSceneState();
 }
 
 int cardNum = 0;
@@ -17,35 +14,22 @@ int msgNum = 0;
 String currentCharacter = "";
 String currentMessage = "";
 var currentCharacterImage = "";
+var currentScenary = "";
 List choisesList = [];
-List cardList = [];
-dynamic currentScenary = "";
 
-class MyGameState extends State<MyGame> {
+class NextSceneState extends State<NextScene> {
   Map data = {};
 //внутрененее состояние класса незменяемое при каждом изменении основного состоянии программы
   @override
   void initState() {
-    _fetchData();
+    fetchData();
     super.initState();
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
-  }
-
-  Future<File> _writeData(int cardNum) async {
-    final _dirPath = await _localPath;
-    final _myFile = File("$_dirPath/data.txt");
-    return _myFile.writeAsString("$cardNum");
-  }
-
 //конструктор, получающий данные из json файла
-  Future<void> _fetchData() async {
+  Future<void> fetchData() async {
     final response =
-        await rootBundle.loadString('assets/jsonFiles/scene_1.json');
+        await rootBundle.loadString('assets/jsonFiles/scene_2.json');
     setState(() {
       data = jsonDecode(response);
       currentCharacter = data['cards'][cardNum]['characterName'];
@@ -53,7 +37,6 @@ class MyGameState extends State<MyGame> {
       currentCharacterImage = data['cards'][cardNum]['characterImage'];
       currentScenary = data['cards'][cardNum]['backgroundImage'];
       choisesList = data['cards'][cardNum]['choises'].toList();
-      cardList = data['cards'].toList();
     });
   }
 
@@ -182,7 +165,7 @@ class MyGameState extends State<MyGame> {
   Widget backgroundScenary() {
     return Center(
       child: Image.asset(currentScenary),
-      widthFactor: 1.3,
+      widthFactor: 1.2,
     );
   }
 
@@ -210,16 +193,16 @@ class MyGameState extends State<MyGame> {
       margin: EdgeInsets.only(
           left: 50,
           right: 30,
-          bottom: 50,
+          bottom: 100,
           top: MediaQuery.of(context).size.height / 1.3),
       alignment: Alignment.topLeft,
-      child: DefaultTextStyle(
-          textAlign: TextAlign.left,
-          style: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'Optimus Princeps',
-              fontSize: 22.4),
-          child: Text(currentMessage)),
+      child: Text(
+        currentMessage,
+        textAlign: TextAlign.left,
+        textScaleFactor: 1.5,
+        style: const TextStyle(
+            color: Colors.white, fontFamily: 'Optimus Princeps', fontSize: 16),
+      ),
     );
   }
 
@@ -250,42 +233,20 @@ class MyGameState extends State<MyGame> {
 
 // виджет-конпка 'далее', которая задействует функцию nextCardNum, которая обновляет переменные и состояние основного виджета
   Widget nextButton() {
-    return MaterialApp(
-        home: Builder(
-            builder: (context) => Row(children: [
-                  Container(
-                      alignment: Alignment.bottomLeft,
-                      margin: const EdgeInsets.only(left: 360, bottom: 270),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.skip_next,
-                          color: Colors.white,
-                          size: MediaQuery.of(context).size.width / 35,
-                        ),
-                        onPressed: () {
-                          if (cardNum != data['cards'].length - 1) {
-                            data['cards'][cardNum]['choises'].isEmpty
-                                ? nextCardNum()
-                                : _openDialogue(context);
-                          } else {
-                            Route route = MaterialPageRoute(
-                                builder: (context) => const NextScene());
-                            Navigator.push(context, route);
-                          }
-                        },
-                      )),
-                  Container(
-                      alignment: Alignment.bottomLeft,
-                      margin: const EdgeInsets.only(left: 50, bottom: 270),
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.save_alt,
-                            color: Colors.white,
-                            size: MediaQuery.of(context).size.width / 35,
-                          ),
-                          onPressed: () {
-                            _writeData;
-                          }))
-                ])));
+    return Container(
+        alignment: Alignment.bottomLeft,
+        margin: const EdgeInsets.only(left: 360, bottom: 270),
+        child: IconButton(
+          icon: Icon(
+            Icons.skip_next,
+            color: Colors.white,
+            size: MediaQuery.of(context).size.width / 28,
+          ),
+          onPressed: () {
+            data['cards'][cardNum]['choises'].isEmpty
+                ? nextCardNum()
+                : _openDialogue(context);
+          },
+        ));
   }
 }

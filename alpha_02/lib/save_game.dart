@@ -1,15 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:alpha_02/scene_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
-class MyGame extends StatefulWidget {
-  const MyGame({Key key}) : super(key: key);
+import 'scene_2.dart';
+
+class LoadMyGame extends StatefulWidget {
+  const LoadMyGame({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => MyGameState();
+  State<StatefulWidget> createState() => LoadMyGameState();
 }
 
 int cardNum = 0;
@@ -21,25 +23,37 @@ List choisesList = [];
 List cardList = [];
 dynamic currentScenary = "";
 
-class MyGameState extends State<MyGame> {
+class LoadMyGameState extends State<LoadMyGame> {
   Map data = {};
 //внутрененее состояние класса незменяемое при каждом изменении основного состоянии программы
   @override
   void initState() {
-    _fetchData();
     super.initState();
+    _readData;
+    _fetchData();
   }
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
-  Future<File> _writeData(int cardNum) async {
+  Future<File> _writeData() async {
     final _dirPath = await _localPath;
     final _myFile = File("$_dirPath/data.txt");
     return _myFile.writeAsString("$cardNum");
+  }
+
+  Future<int> _readData() async {
+    final _dirPath = await _localPath;
+    final _myFile = File("$_dirPath/data.txt");
+    final _data = await _myFile.readAsString(encoding: utf8);
+    var _dataToInt = int.parse(_data);
+    assert(_dataToInt is int);
+    setState(() {
+      cardNum = _dataToInt;
+    });
+    return cardNum;
   }
 
 //конструктор, получающий данные из json файла
